@@ -7,6 +7,9 @@ import Link from 'next/link'; // Use Link to navigate
 import questAbi from '../contractData/Quest.json'
 import { BrowserProvider, ethers } from "ethers";
 import questAddress from "../contractData/address.json";
+import { client } from "../client";
+import { ConnectButton } from "thirdweb/react";
+// import Connect from "./Connect";
 
 declare global {
   interface Window {
@@ -39,9 +42,6 @@ const Navbar: React.FC = () => {
         setAccount(accounts[0]); // Store the first account address
         // Set a sample balance (You can replace this with actual balance fetching logic)
         setBalance('10 QF');
-        // console.log('Connected account:', account);
-        // console.log('Connected balance:', balance);
-
         // Redirect to home page after successful connection
         router.push('/home'); // Automatically redirect to the home page
       } catch (error) {
@@ -50,7 +50,6 @@ const Navbar: React.FC = () => {
     } else {
       alert("MetaMask is not installed. Please install MetaMask and try again.");
     }
-
   };
 
   const handleWithdraw = async () => {
@@ -142,12 +141,23 @@ const Navbar: React.FC = () => {
           </button>
         </Link>
 
-        <button
+        {/* <button
           onClick={isConnected ? undefined : connectWallet}
           className="text-white bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-400 hover:to-purple-600 transition duration-300 px-4 py-2 rounded-lg transform hover:scale-105"
         >
           {isConnected ? `${account?.substring(0, 6)}...${account?.substring(account.length - 4)}` : "Connect Wallet"}
+        </button> */}
+        <button onClick={isConnected ? undefined : connectWallet}>
+          <ConnectButton
+            client={client}
+            appMetadata={{
+              name: "Example App",
+              url: "https://example.com",
+            }}
+            onConnect={() => connectWallet()} // Use the connectWallet function on successful connection
+          />
         </button>
+        
       </div>
     </nav>
   );

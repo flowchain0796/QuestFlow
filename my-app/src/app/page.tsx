@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { FaArrowDown } from 'react-icons/fa'; // Arrow icon for animation
+import { client } from "./client";
 
 const Page = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(true); // To manage popup visibility
